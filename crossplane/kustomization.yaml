@@ -1,0 +1,4 @@
+
+resources:
+  - provider-config.yaml
+  - c8-saas-cluster.yaml

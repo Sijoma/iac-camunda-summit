@@ -4,9 +4,9 @@ metadata:
   name: coffee-shop-zeebe-client
 spec:
   forProvider:
-    clusterID: f748535e-b78f-4801-8ce7-bbacb404f0eb
+    clusterID: 984bc013-defd-4550-a375-476c3b6ced96
   writeConnectionSecretToRef:
     name: service-worker-client
-    namespace: coffee-shop
+    namespace: coffee-shop-crossplane
   providerConfigRef:
-    name: example
+    name: c8-org-arabica

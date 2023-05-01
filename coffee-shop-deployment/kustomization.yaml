@@ -1,8 +1,7 @@
 
-namespace: coffee-shop
-
 resources:
   - deployment.yaml
+  - coffee-shop-client.yaml
 
 configMapGenerator:
   - name: coffee-shop-bpmn
