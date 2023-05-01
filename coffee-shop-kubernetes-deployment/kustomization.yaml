@@ -1,0 +1,12 @@
+
+namespace: coffee-shop
+
+resources:
+  - deployment.yaml
+
+configMapGenerator:
+  - name: coffee-shop-bpmn
+    options:
+      disableNameSuffixHash: true
+    files:
+    - coffee-shop.bpmn

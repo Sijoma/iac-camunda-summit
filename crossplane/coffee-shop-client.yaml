@@ -1,0 +1,12 @@
+apiVersion: camunda.crossplane.io/v1alpha1
+kind: Client
+metadata:
+  name: coffee-shop-zeebe-client
+spec:
+  forProvider:
+    clusterID: f748535e-b78f-4801-8ce7-bbacb404f0eb
+  writeConnectionSecretToRef:
+    name: service-worker-client
+    namespace: coffee-shop
+  providerConfigRef:
+    name: example

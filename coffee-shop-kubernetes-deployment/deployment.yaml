@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffee-shop-service-worker
+  labels:
+    app: coffee-shop-service-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coffee-shop-service-worker
+  template:
+    metadata:
+      name: coffee-shop-service-worker
+      labels:
+        app: coffee-shop-service-worker
+    spec:
+      containers:
+        - name: coffee-shop-service-worker
+          image: sijoma/coffee-shop-service-worker:0.0.2
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: service-worker-client
+          volumeMounts:
+            - mountPath: /usr/bpmn
+              name: coffee-shop-bpmn
+      volumes:
+        - name: coffee-shop-bpmn
+          configMap:
+            name: coffee-shop-bpmn

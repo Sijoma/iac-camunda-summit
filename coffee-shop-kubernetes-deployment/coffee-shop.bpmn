@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="e8f2bb5" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0" camunda:diagramRelationId="dd3bb858-30cd-4f85-8d20-0b75762fbdf6">
+  <bpmn:process id="iac-coffee-shop" isExecutable="true">
+    <bpmn:extensionElements>
+      <zeebe:userTaskForm id="userTaskForm_0pjtr0l">{
+  "components": [
+    {
+      "text": "# Coffee or Tea?",
+      "type": "text",
+      "id": "Field_1j1elge"
+    },
+    {
+      "values": [
+        {
+          "label": "Coffee",
+          "value": "coffee"
+        },
+        {
+          "label": "Tea",
+          "value": "tea"
+        }
+      ],
+      "label": "Order",
+      "type": "radio",
+      "id": "Field_0e0gi28",
+      "key": "order",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "schemaVersion": 4,
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "5b7b5bc"
+  },
+  "type": "default",
+  "id": "Form_8936f568-04c6-448e-b8a6-80be8d3176df",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "1.3"
+}</zeebe:userTaskForm>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_1" name="deprived of energy">
+      <bpmn:outgoing>Flow_11y9y90</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_11y9y90" sourceRef="StartEvent_1" targetRef="decide-order" />
+    <bpmn:exclusiveGateway id="order-gateway">
+      <bpmn:incoming>Flow_0nt63pd</bpmn:incoming>
+      <bpmn:outgoing>tea-path</bpmn:outgoing>
+      <bpmn:outgoing>coffee-path</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="tea-path" name="Tea" sourceRef="order-gateway" targetRef="prepare-Tea">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=order = "tea"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="coffee-path" name="Coffee" sourceRef="order-gateway" targetRef="prepare-coffee">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=order = "coffee"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_0ve5rnc">
+      <bpmn:incoming>chicken-prepared</bpmn:incoming>
+      <bpmn:incoming>salad-prepared</bpmn:incoming>
+      <bpmn:outgoing>Flow_0sfq6eq</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="chicken-prepared" sourceRef="prepare-Tea" targetRef="Gateway_0ve5rnc" />
+    <bpmn:endEvent id="happy-end" name="Energized">
+      <bpmn:incoming>Flow_0qqmk8p</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="salad-prepared" sourceRef="prepare-coffee" targetRef="Gateway_0ve5rnc" />
+    <bpmn:userTask id="decide-order" name="Decide what to order">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formKey="camunda-forms:bpmn:userTaskForm_0pjtr0l" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_11y9y90</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nt63pd</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="prepare-Tea" name="Prepare Tea">
+      <bpmn:extensionElements />
+      <bpmn:incoming>tea-path</bpmn:incoming>
+      <bpmn:outgoing>chicken-prepared</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="prepare-coffee" name="Prepare Coffee">
+      <bpmn:extensionElements />
+      <bpmn:incoming>coffee-path</bpmn:incoming>
+      <bpmn:outgoing>salad-prepared</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0nt63pd" sourceRef="decide-order" targetRef="order-gateway" />
+    <bpmn:sequenceFlow id="Flow_0sfq6eq" sourceRef="Gateway_0ve5rnc" targetRef="service-worker" />
+    <bpmn:serviceTask id="service-worker" name="Generate text">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="generate-text" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0sfq6eq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qqmk8p</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0qqmk8p" sourceRef="service-worker" targetRef="happy-end" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="iac-coffee-shop">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="150" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="143" y="193" width="55" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0wuwes6_di" bpmnElement="order-gateway" isMarkerVisible="true">
+        <dc:Bounds x="405" y="143" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="387" y="136" width="30" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ve5rnc_di" bpmnElement="Gateway_0ve5rnc" isMarkerVisible="true">
+        <dc:Bounds x="665" y="143" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0dpj9tv_di" bpmnElement="happy-end">
+        <dc:Bounds x="952" y="150" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="193" width="50" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06qp7v3_di" bpmnElement="decide-order">
+        <dc:Bounds x="260" y="128" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_174hh3g_di" bpmnElement="prepare-Tea">
+        <dc:Bounds x="510" y="78" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0edtwui_di" bpmnElement="prepare-coffee">
+        <dc:Bounds x="510" y="190" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01xgp82_di" bpmnElement="service-worker">
+        <dc:Bounds x="760" y="128" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_11y9y90_di" bpmnElement="Flow_11y9y90">
+        <di:waypoint x="188" y="168" />
+        <di:waypoint x="260" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10fo3iz_di" bpmnElement="tea-path">
+        <di:waypoint x="430" y="143" />
+        <di:waypoint x="430" y="118" />
+        <di:waypoint x="510" y="118" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="447" y="98" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mlcqv2_di" bpmnElement="coffee-path">
+        <di:waypoint x="430" y="193" />
+        <di:waypoint x="430" y="230" />
+        <di:waypoint x="510" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="435" y="236" width="33" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fdmm0c_di" bpmnElement="chicken-prepared">
+        <di:waypoint x="610" y="118" />
+        <di:waypoint x="690" y="118" />
+        <di:waypoint x="690" y="143" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k2rps2_di" bpmnElement="salad-prepared">
+        <di:waypoint x="610" y="230" />
+        <di:waypoint x="690" y="230" />
+        <di:waypoint x="690" y="193" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nt63pd_di" bpmnElement="Flow_0nt63pd">
+        <di:waypoint x="360" y="168" />
+        <di:waypoint x="405" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0sfq6eq_di" bpmnElement="Flow_0sfq6eq">
+        <di:waypoint x="715" y="168" />
+        <di:waypoint x="760" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qqmk8p_di" bpmnElement="Flow_0qqmk8p">
+        <di:waypoint x="860" y="168" />
+        <di:waypoint x="952" y="168" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

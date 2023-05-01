@@ -1,0 +1,15 @@
+apiVersion: camunda.crossplane.io/v1alpha1
+kind: Cluster
+metadata:
+  name: coffee-shop-automation
+spec:
+  forProvider:
+    channel: 6bdf0d1c-3d5a-4df6-8d03-762682964d85
+    generation: 095d90d7-9ea2-481d-9089-d4d4f8fe5bd3 # Zeebe 8.2.2
+    planType: 37b564b6-3ce8-4f98-a64e-96a64b38d06b # Trial Package
+    region: 2f6470f9-77ec-4be5-9cdc-3231caf683ec  # Europe West
+  writeConnectionSecretToRef:
+    name: my-cluster-details
+    namespace: default
+  providerConfigRef:
+    name: example

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: crossplane-system
+  name: coffee-shop-camunda
+type: Opaque
+data:
+  credentials: eyAiY2xpZW50X2lkIjogImo1MGtucVpWRU1+NDFNdlgiLCAiY2xpZW50X3NlY3JldCI6ICJ4Y2pxWHI3TWMxdHBnVC56eU9jfjI1azUuc21XVUc2bCIgfQo=
+---
+apiVersion: camunda.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: example
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: crossplane-system
+      name: coffee-shop-camunda
+      key: credentials
