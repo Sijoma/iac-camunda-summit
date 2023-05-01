@@ -1,5 +1,11 @@
 # summit-iac-camunda
 
+This repo contains the following:
+
+- coffee-shop-app: Camunda Service worker that deploys a mounted BPMN process
+- coffee-shop-deployment: k8s deployment manifests & BPMN file & Crossplane Zeebe Client
+- crossplane: manifests to create a c8 saas cluster
+- terraform: creates c8 saas cluster, client, k8s secret for client secret
 
 ## Terraform example
 
