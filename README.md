@@ -1,4 +1,4 @@
-# summit-iac-camunda
+# iac-camunda-summit
 
 This repo contains the following:
 
