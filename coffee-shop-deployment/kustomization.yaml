@@ -1,7 +1,8 @@
 
 resources:
   - deployment.yaml
-  - coffee-shop-client.yaml
+# Comment this in if you want to use crossplane
+#  - coffee-shop-client.yaml
 
 configMapGenerator:
   - name: coffee-shop-bpmn

@@ -22,6 +22,7 @@ kustomize build ../coffee-shop-kubernetes-deployment/ | kubectl apply -f -
 
 Install `package/crds` of camunda-crossplane-provider first and run it too! 
 
+- Comment
 ```bash
 kustomize build crossplane/. | kubectl apply -f - 
 ```
